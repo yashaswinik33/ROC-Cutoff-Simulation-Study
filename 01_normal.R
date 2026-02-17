@@ -162,7 +162,7 @@ write.csv(results1, "normal_results/normal_k1_d0.5.csv", row.names = FALSE)
 
 ##### Simulation 3:  k = 1, d = 0.8 #####
 nsim = 500
-m <- 2.5
+mu1 <- 2.5
 sigma1 <- 0.6
 
 k <- 1 # to be changed
