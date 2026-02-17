@@ -1,6 +1,6 @@
 library(here)
 library(cutpointr)
-
+dir.create("normal_gamma_results")
 
 ##### Function to estimate mu2 and sigma2 #####
 estimate_gamma_parameters <- function(mu1, sigma1, d = 0.2, sigma2) {

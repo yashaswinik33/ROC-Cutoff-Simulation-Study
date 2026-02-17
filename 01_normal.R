@@ -1,6 +1,6 @@
 library(here)
 library(cutpointr)
-
+dir.create("normal_results")
 
 ##### Normal ROC function #####
 normal_roc <- function(mu1, mu2, sigma1, sigma2,
