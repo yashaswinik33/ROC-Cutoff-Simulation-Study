@@ -4,16 +4,16 @@ dir.create("normal_gamma_results")
 
 ##### Function to estimate mu2 and sigma2 #####
 estimate_gamma_parameters <- function(mu1, sigma1, d = 0.2, sigma2) {
-  # Median and IQR for Normal
+  
   median1 <- mu1
   iqr1 <- qnorm(0.75, mean = mu1, sd = sigma1) - qnorm(0.25, mean = mu1, sd = sigma1)
   
-  # IQR function for Gamma
+ 
   iqr_gamma <- function(shape, scale) {
     qgamma(0.75, shape = shape, scale = scale) - qgamma(0.25, shape = shape, scale = scale)
   }
   
-  # Objective: find mu2 such that gamma median matches effect size offset
+ 
   objective <- function(mu2) {
     shape2 <- (mu2 / sigma2)^2
     scale2 <- sigma2^2 / mu2
@@ -27,7 +27,7 @@ estimate_gamma_parameters <- function(mu1, sigma1, d = 0.2, sigma2) {
     return((median2 - target_median2)^2)
   }
   
-  # Optimization
+
   init_mu2 <- mu1 + 1
   res <- optim(par = init_mu2, fn = objective, method = "L-BFGS-B", lower = 0.01, upper = 100)
   
@@ -124,8 +124,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.2 # to be changed
+k <- 1 
+d <- 0.2 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -156,8 +156,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.5 # to be changed
+k <- 1 
+d <- 0.5 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -188,8 +188,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.8 # to be changed
+k <- 1 
+d <- 0.8 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -221,8 +221,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.2 # to be changed
+k <- 1.5 
+d <- 0.2 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -254,8 +254,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.5 # to be changed
+k <- 1.5 
+d <- 0.5 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -287,8 +287,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.8 # to be changed
+k <- 1.5 
+d <- 0.8 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -320,8 +320,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.2 # to be changed
+k <- 2 
+d <- 0.2 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -353,8 +353,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.5 # to be changed
+k <- 2 
+d <- 0.5 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -386,8 +386,8 @@ nsim <- 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.8 # to be changed
+k <- 2 
+d <- 0.8 
 
 sigma2 <- k * sigma1
 conf_level <- 0.95
@@ -410,6 +410,7 @@ print(paste("Execution time:", execution_time))
 
 results1 <- do.call(rbind, results)
 write.csv(results1, "normal_gamma_results/normal_vs_gamma_k2_d0.8.csv", row.names = FALSE)
+
 
 
 
