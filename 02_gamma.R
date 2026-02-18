@@ -4,16 +4,16 @@ dir.create("gamma_results")
 
 ##### Function to estimate mu2 and sigma2 #####
 estimate_gamma_parameters <- function(mu1, sigma1, d = 0.2, sigma2) {
-  # Shape and scale for group 1
+  
   shape1 <- (mu1 / sigma1)^2
   scale1 <- sigma1^2 / mu1
   
-  # IQR function for gamma
+ 
   iqr_gamma <- function(shape, scale) {
     qgamma(0.75, shape, scale = scale) - qgamma(0.25, shape, scale = scale)
   }
   
-  # Objective function: minimize difference between median2 and target
+ 
   objective <- function(mu2) {
     shape2 <- (mu2 / sigma2)^2
     scale2 <- sigma2^2 / mu2
@@ -29,10 +29,10 @@ estimate_gamma_parameters <- function(mu1, sigma1, d = 0.2, sigma2) {
     return((median2 - target_median2)^2)
   }
   
-  # Initial guess for mu2
-  init_mu2 <- mu1 + 1  # or something sensible
+ 
+  init_mu2 <- mu1 + 1  
   
-  # Optimize only mu2
+  
   res <- optim(par = init_mu2, fn = objective, method = "L-BFGS-B", lower = 0.01, upper = 100)
   
   mu2 <- res$par
@@ -53,7 +53,7 @@ gamma_roc <- function(mu1, mu2, sigma1, sigma2,
                       n = 50, nsim = 10,
                       conf_level = 0.95) {
   
-  # metrics & names
+ 
   metrics <- list(
     youden, accuracy, sum_sens_spec, sum_ppv_npv,
     prod_sens_spec, prod_ppv_npv, cohens_kappa,
@@ -68,14 +68,14 @@ gamma_roc <- function(mu1, mu2, sigma1, sigma2,
   )
   K <- length(metrics)
   
-  # storage
+ 
   sens_mat <- spec_mat <- acc_mat <- auc_mat <- matrix(NA_real_, nrow = nsim, ncol = K)
   
-  # Monte Carlo loop
+ 
   s <- 1
   while (s <= nsim) {
     
-    # Convert mu and sigma to shape and scale for Gamma
+    
     shape1 <- (mu1 / sigma1)^2
     scale1 <- sigma1^2 / mu1
     shape2 <- (mu2 / sigma2)^2
@@ -143,8 +143,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1 # to be changed
-d <- 0.2 # to be changed
+k <- 1 
+d <- 0.2 
 
 
 sigma2 <- k*sigma1
@@ -183,8 +183,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1 # to be changed
-d <- 0.5 # to be changed
+k <- 1 
+d <- 0.5 
 
 
 sigma2 <- k*sigma1
@@ -222,8 +222,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1 # to be changed
-d <- 0.8 # to be changed
+k <- 1 
+d <- 0.8 
 
 
 sigma2 <- k*sigma1
@@ -263,8 +263,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1.5 # to be changed
-d <- 0.2 # to be changed
+k <- 1.5 
+d <- 0.2 
 
 
 sigma2 <- k*sigma1
@@ -303,8 +303,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1.5 # to be changed
-d <- 0.5 # to be changed
+k <- 1.5 
+d <- 0.5 
 
 
 sigma2 <- k*sigma1
@@ -343,8 +343,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 1.5 # to be changed
-d <- 0.8 # to be changed
+k <- 1.5 
+d <- 0.8 
 
 
 sigma2 <- k*sigma1
@@ -383,8 +383,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 2 # to be changed
-d <- 0.2 # to be changed
+k <- 2 
+d <- 0.2 
 
 
 sigma2 <- k*sigma1
@@ -422,8 +422,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 2 # to be changed
-d <- 0.5 # to be changed
+k <- 2 
+d <- 0.5 
 
 
 sigma2 <- k*sigma1
@@ -462,8 +462,8 @@ mu1 <- 2.5
 sigma1 <- 0.6
 
 
-k <- 2 # to be changed
-d <- 0.8 # to be changed
+k <- 2 
+d <- 0.8 
 
 
 sigma2 <- k*sigma1
@@ -557,4 +557,5 @@ iqr_pooled <- (iqr1 + iqr2)/2
 # Compute observed d
 observed_d <- (median2 - median1) / (1.35 * iqr_pooled)
 print(observed_d)  
+
 
