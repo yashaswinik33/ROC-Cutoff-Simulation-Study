@@ -22,10 +22,10 @@ normal_roc <- function(mu1, mu2, sigma1, sigma2,
   )
   K <- length(metrics)
   
-  # store simulation results
+ 
   sens_mat <- spec_mat <- acc_mat <- auc_mat <- matrix(NA_real_, nrow = nsim, ncol = K)
   
-  # Monte‑Carlo loop 
+
   s <- 1
   while (s <= nsim) {
   
@@ -40,14 +40,14 @@ normal_roc <- function(mu1, mu2, sigma1, sigma2,
       tryCatch({
         cutpointr(D, x = NLR, class = group, metric = mtf)
       }, error = function(e) {
-        success <<- FALSE # Set flag to regenerate
+        success <<- FALSE 
         return(NULL)
       })
     }, mtf = metrics, nm = metric_names,
     SIMPLIFY = FALSE)
     
     if (!success) {
-      next  # Skip to next iteration of while loop, regenerate data
+      next  
     }
     
     sens_mat[s, ] <- vapply(res_list, function(x) x$sensitivity, numeric(1))
@@ -55,7 +55,7 @@ normal_roc <- function(mu1, mu2, sigma1, sigma2,
     acc_mat [s, ] <- vapply(res_list, function(x) x$acc, numeric(1))
     auc_mat [s, ] <- vapply(res_list, function(x) x$AUC, numeric(1))
     
-    s <- s + 1  # Proceed only if successful
+    s <- s + 1  
   }
   
   
@@ -64,7 +64,7 @@ normal_roc <- function(mu1, mu2, sigma1, sigma2,
     m  <- colMeans(mat, na.rm = TRUE)
     sd <- apply(mat, 2, sd, na.rm = TRUE)
     
-    # direct empirical percentile CI
+   
     pct <- (1 - conf_level) / 2
     ci_low  <- apply(mat, 2, quantile, probs = pct, na.rm = TRUE)
     ci_high <- apply(mat, 2, quantile, probs = 1 - pct, na.rm = TRUE)
@@ -96,8 +96,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.2 # to be changed
+k <- 1 
+d <- 0.2 
 
 
 sigma2 <- k * sigma1
@@ -130,8 +130,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.5 # to be changed
+k <- 1 
+d <- 0.5 
 
 
 sigma2 <- k * sigma1
@@ -165,8 +165,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1 # to be changed
-d <- 0.8 # to be changed
+k <- 1 
+d <- 0.8 
 
 
 sigma2 <- k * sigma1
@@ -200,8 +200,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.2 # to be changed
+k <- 1.5 
+d <- 0.2 
 
 
 sigma2 <- k * sigma1
@@ -234,8 +234,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.5 # to be changed
+k <- 1.5 
+d <- 0.5 
 
 
 sigma2 <- k * sigma1
@@ -268,8 +268,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 1.5 # to be changed
-d <- 0.8 # to be changed
+k <- 1.5 
+d <- 0.8 
 
 
 sigma2 <- k * sigma1
@@ -303,8 +303,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.2 # to be changed
+k <- 2 
+d <- 0.2 
 
 
 sigma2 <- k * sigma1
@@ -337,8 +337,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.5 # to be changed
+k <- 2 
+d <- 0.5 
 
 
 sigma2 <- k * sigma1
@@ -372,8 +372,8 @@ nsim = 500
 mu1 <- 2.5
 sigma1 <- 0.6
 
-k <- 2 # to be changed
-d <- 0.8 # to be changed
+k <- 2 
+d <- 0.8 
 
 
 sigma2 <- k * sigma1
@@ -404,24 +404,4 @@ write.csv(results1, "normal_results/normal_k2_d0.8.csv", row.names = FALSE)
 
 
 
-
-
-##### Rough #####
-n <- 50
-mu1 <- 3.5
-sigma1 <- 0.65
-mu2 <- 2.5
-sigma2 <- 0.66
-
-# Testing cutpoinr()
-x1 <- rnorm(n, mu1, sigma1)
-x2 <- rnorm(n, mu2, sigma2)
-D  <- data.frame(NLR = round(c(x1, x2), 2),
-                 group = rep(c(1, 0), each = n))
-x <- cutpointr(D, x = NLR, class = group, metric = youden)
-
-# testing normal_roc()
-normal_roc(mu1, mu2, sigma1, sigma2,
-           n = 50, nsim = 10,
-           conf_level = 0.95)
 
